@@ -2,7 +2,7 @@ package model;
 
 import java.text.DecimalFormat;
 
-public class Cash implements Comparable<Cash>{
+public class Expense implements Comparable<Expense>{
 
 	private int id;
 	private Date date;
@@ -14,7 +14,7 @@ public class Cash implements Comparable<Cash>{
 	
 	private static int next_id = 1000;
 	
-	public Cash(Date date, String name, float cost, String category){
+	public Expense(Date date, String name, float cost, String category){
 		this.id = next_id++;
 		this.date = date;
 		this.name = name;
@@ -62,7 +62,7 @@ public class Cash implements Comparable<Cash>{
 		this.category = category;
 	}
 	
-	public int compareTo(Cash otherExpense) {
+	public int compareTo(Expense otherExpense) {
 		return this.date.compareTo(otherExpense.getDate());
 	}
 	

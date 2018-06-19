@@ -14,7 +14,7 @@ import java.util.Scanner;
 import util.Dialogs;
 import view.GUI;
 import model.Date;
-import model.Cash;
+import model.Expense;
 
 public class FileAccess {
 	
@@ -31,8 +31,8 @@ public class FileAccess {
 	 * 
 	 * @param cateogyList - List for the loaded categories to go into.
 	 */
-	public ArrayList<Cash> readFromFile(ArrayList<String> cateogyList){
-		ArrayList<Cash> expenseList = new ArrayList<Cash>(); 
+	public ArrayList<Expense> readFromFile(ArrayList<String> cateogyList){
+		ArrayList<Expense> expenseList = new ArrayList<Expense>(); 
 		try {			
 			Scanner inFile = new Scanner(new BufferedReader(new FileReader(EXPENSES_FILE_NAME)));
 			while(inFile.hasNextLine()){
@@ -52,7 +52,7 @@ public class FileAccess {
 				inFile.nextLine();
 				
 				//create and add new expense into loaded list
-				expenseList.add(new Cash(date, name, cost, category));
+				expenseList.add(new Expense(date, name, cost, category));
 				
 				//add category to list if it is not already
 				if(!cateogyList.contains(category)){
@@ -77,9 +77,9 @@ public class FileAccess {
 	 * Writes the expenses (and implicitly therefore the categories) to the text file.
 	 * @param expenseList - All expenses to save
 	 */
-	public void writeToFile(ArrayList<Cash> expenseList) {
+	public void writeToFile(ArrayList<Expense> expenseList) {
 		try(FileWriter fw = new FileWriter(EXPENSES_FILE_NAME, false) ; BufferedWriter bw = new BufferedWriter(fw) ; PrintWriter outfile = new PrintWriter(bw, false);){
-			for(Cash e : expenseList){
+			for(Expense e : expenseList){
 				if(e != expenseList.get(expenseList.size()-1)){
 					outfile.println(e.toString());
 				}

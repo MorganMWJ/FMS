@@ -9,7 +9,7 @@ import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
 import javax.swing.table.DefaultTableModel;
 
-import model.Cash;
+import model.Expense;
 import util.Strings;
 
 /**
@@ -37,7 +37,7 @@ public abstract class Tab extends JPanel{
 	 * @param expenses - The expenses that are to be displayed in the
 	 *  table on program start up. (All expenses available)
 	 */
-	public void buildTable(ArrayList<Cash> expenses) {
+	public void buildTable(ArrayList<Expense> expenses) {
 		//constructs new JTable and makes all cells non editable
 		table = new JTable(){
 			public boolean isCellEditable(int row, int column){
@@ -63,15 +63,15 @@ public abstract class Tab extends JPanel{
 	 * 
 	 * @param newExpenses - The list of expenses to now be displayed by the common table.
 	 */
-	public void loadTableContent(ArrayList<Cash> newExpenses) {
+	public void loadTableContent(ArrayList<Expense> newExpenses) {
 		
 		//get all cells of data into a 2D string array
 		String[][] data = new String[newExpenses.size()][5];
 		int index = 0;
-		for(Cash e : newExpenses){
+		for(Expense e : newExpenses){
 			data[index][0] = e.getDate().toString();
 			data[index][1] = e.getName();
-			data[index][2] = Cash.currencyFormat(e.getCost());
+			data[index][2] = Expense.currencyFormat(e.getCost());
 			data[index][3] = e.getCategory();
 			//hidden value used to uniquely Identify expenses
 			data[index][4] = e.getId() + "";

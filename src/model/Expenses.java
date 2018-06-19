@@ -7,24 +7,24 @@ import java.util.ArrayList;
  * @author Morgan Jones
  *
  */
-public class Cashflow {
+public class Expenses {
 
-	private ArrayList<Cash> cashflow;
+	private ArrayList<Expense> expenses;
 	private ArrayList<String> categories;
 	private Criteria crit;
 	
-	public Cashflow(ArrayList<Cash> cashflow, ArrayList<String> categories) {
-		this.cashflow = cashflow;
+	public Expenses(ArrayList<Expense> expenses, ArrayList<String> categories) {
+		this.expenses = expenses;
 		this.categories = categories;
 		this.crit = new Criteria();
 	}
 	
-	public void setCashflow(ArrayList<Cash> cashflow){
-		this.cashflow = cashflow;
+	public void setCashflow(ArrayList<Expense> expenses){
+		this.expenses = expenses;
 	}
 
-	public ArrayList<Cash> getCashflow() {
-		return cashflow;
+	public ArrayList<Expense> getCashflow() {
+		return expenses;
 	}
 	
 	public ArrayList<String> getCategories(){
@@ -40,9 +40,9 @@ public class Cashflow {
 	 * @param id
 	 */
 	public void removeCash(int id){
-		for(Cash c : cashflow){
+		for(Expense c : expenses){
 			if(c.getId() == id){
-				cashflow.remove(c);
+				expenses.remove(c);
 				return;
 			}
 		}
@@ -54,14 +54,14 @@ public class Cashflow {
 	 * @param c
 	 */
 	public void removeCashInCategory(String category){
-		ArrayList<Cash> toRemove = new ArrayList<Cash>();
-		for(Cash c: cashflow){
+		ArrayList<Expense> toRemove = new ArrayList<Expense>();
+		for(Expense c: expenses){
 			if(c.getCategory().equals(category)){
 				toRemove.add(c);
 			}
 		}
 		
-		cashflow.removeAll(toRemove);
+		expenses.removeAll(toRemove);
 		
 		//remove also as category criteria
 		if(crit.getCategory()!=null && crit.getCategory().equals(category)){
@@ -74,25 +74,25 @@ public class Cashflow {
 	 *  based on the 4 saved criteria
 	 * @return
 	 */
-	public ArrayList<Cash> getCashflowToDisplay() {
+	public ArrayList<Expense> getCashflowToDisplay() {
 		
-		ArrayList<Cash> toDisplay = new ArrayList<Cash>();
+		ArrayList<Expense> toDisplay = new ArrayList<Expense>();
 		
 		switch(getCritieraCount(crit)){
 			case 0:
-				toDisplay = cashflow;
+				toDisplay = expenses;
 				break;
 			
 			case 1:
 				if(crit.getProvided(0)){
-					for(Cash c : cashflow){
+					for(Expense c : expenses){
 						if (c.getDate().getMonth() == crit.getMonth()) {
 							toDisplay.add(c);
 						}
 					}
 				}
 				else if(crit.getProvided(1)){
-					for(Cash c : cashflow){
+					for(Expense c : expenses){
 						if (c.getCategory().equals(crit.getCategory())) {
 							toDisplay.add(c);
 						}
@@ -100,14 +100,14 @@ public class Cashflow {
 					
 				}
 				else if(crit.getProvided(2)){
-					for(Cash c : cashflow){
+					for(Expense c : expenses){
 						if(c.getCost() <= crit.getLessThan()){
 							toDisplay.add(c);
 						}
 					}
 				}
 				else if(crit.getProvided(3)){
-					for(Cash c : cashflow){
+					for(Expense c : expenses){
 						if(c.getCost() >= crit.getMoreThan()){
 							toDisplay.add(c);
 						}
@@ -117,42 +117,42 @@ public class Cashflow {
 				
 			case 2:
 				if(crit.getProvided(3) && crit.getProvided(1)){
-					for(Cash c : cashflow){
+					for(Expense c : expenses){
 						if(crit.getMonth()==c.getDate().getMonth() && crit.getCategory().equals(c.getCategory())){
 							toDisplay.add(c);
 						}
 					}
 				}
 				else if(crit.getProvided(0) && crit.getProvided(2)){
-					for(Cash c : cashflow){
+					for(Expense c : expenses){
 						if(crit.getMonth()==c.getDate().getMonth() && c.getCost() <= crit.getLessThan()){
 							toDisplay.add(c);
 						}
 					}
 				}
 				else if(crit.getProvided(0) && crit.getProvided(3)){
-					for(Cash c : cashflow){
+					for(Expense c : expenses){
 						if(crit.getMonth()==c.getDate().getMonth() && c.getCost() >= crit.getMoreThan()){
 							toDisplay.add(c);
 						}
 					}
 				}
 				else if(crit.getProvided(1) && crit.getProvided(2)){
-					for(Cash c : cashflow){
+					for(Expense c : expenses){
 						if(crit.getCategory().equals(c.getCategory()) && c.getCost() <= crit.getLessThan()){
 							toDisplay.add(c);
 						}
 					}
 				}
 				else if(crit.getProvided(1) && crit.getProvided(3)){
-					for(Cash c : cashflow){
+					for(Expense c : expenses){
 						if(crit.getCategory().equals(c.getCategory()) && c.getCost() >= crit.getMoreThan()){
 							toDisplay.add(c);
 						}
 					}	
 				}
 				else if(crit.getProvided(2) && crit.getProvided(3)){
-					for(Cash c : cashflow){
+					for(Expense c : expenses){
 						if(c.getCost() >= crit.getMoreThan() || c.getCost() <= crit.getLessThan()){
 							toDisplay.add(c);
 						}
@@ -162,28 +162,28 @@ public class Cashflow {
 				
 			case 3:
 				if(crit.getProvided(0) && crit.getProvided(1) && crit.getProvided(2)){
-					for(Cash c : cashflow){
+					for(Expense c : expenses){
 						if(crit.getMonth()==c.getDate().getMonth() && crit.getCategory().equals(c.getCategory()) && c.getCost() <= crit.getLessThan()){
 							toDisplay.add(c);
 						}
 					}
 				}
 				else if(crit.getProvided(0) && crit.getProvided(1) && crit.getProvided(3)){
-					for(Cash c : cashflow){
+					for(Expense c : expenses){
 						if(crit.getMonth()==c.getDate().getMonth() && crit.getCategory().equals(c.getCategory()) && c.getCost() >= crit.getMoreThan()){
 							toDisplay.add(c);
 						}
 					}
 				}
 				else if(crit.getProvided(0) && crit.getProvided(2) && crit.getProvided(3)){
-					for(Cash c : cashflow){
+					for(Expense c : expenses){
 						if((crit.getMonth()==c.getDate().getMonth() && c.getCost() <= crit.getLessThan()) || (crit.getMonth()==c.getDate().getMonth() && c.getCost() >= crit.getMoreThan())){
 							toDisplay.add(c);
 						}
 					}
 				}
 				else if(crit.getProvided(1) && crit.getProvided(2) && crit.getProvided(3)){
-					for(Cash c : cashflow){
+					for(Expense c : expenses){
 						if((crit.getCategory().equals(c.getCategory()) && c.getCost() <= crit.getLessThan()) || (crit.getCategory().equals(c.getCategory()) && c.getCost() >= crit.getMoreThan())){
 							toDisplay.add(c);
 						}
@@ -192,7 +192,7 @@ public class Cashflow {
 				break;
 				
 			case 4:
-				for(Cash c : cashflow){
+				for(Expense c : expenses){
 					if((crit.getMonth()==c.getDate().getMonth() && crit.getCategory().equals(c.getCategory()) && c.getCost() <= crit.getLessThan()) || (crit.getMonth()==c.getDate().getMonth() && crit.getCategory().equals(c.getCategory()) && c.getCost() >= crit.getMoreThan())){
 						toDisplay.add(c);
 					}
@@ -210,15 +210,15 @@ public class Cashflow {
 	 */
 	public void removeExpenses(int[] removeIds) {
 		
-		ArrayList<Cash> toRemove = new ArrayList<Cash>();
-		for(Cash c : cashflow){
+		ArrayList<Expense> toRemove = new ArrayList<Expense>();
+		for(Expense c : expenses){
 			for(int id : removeIds){
 				if(c.getId() == id){
 					toRemove.add(c);
 				}
 			}
 		}	
-		cashflow.removeAll(toRemove);
+		expenses.removeAll(toRemove);
 	}
 	
 	public void addCategory(String toAdd) throws Exception{

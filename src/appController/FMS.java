@@ -12,8 +12,8 @@ import util.Strings;
 import view.GUI;
 import view.tabs.EditTab;
 import view.tabs.ViewTab;
-import model.Cash;
-import model.Cashflow;
+import model.Expense;
+import model.Expenses;
 import model.fileAccess.FileAccess;
 
 /**
@@ -31,11 +31,11 @@ public class FMS implements ActionListener{
 	
 	private boolean changesMade;
 	
-	private Cashflow allExpenses;
+	private Expenses allExpenses;
 	
 	//private ArrayList<String> categories;
 	
-	private ArrayList<Cash> displayedExpenses;
+	private ArrayList<Expense> displayedExpenses;
 	
 	public FMS(){
 		
@@ -55,7 +55,7 @@ public class FMS implements ActionListener{
 				//load expenses from file
 				displayedExpenses = fileAccess.readFromFile(tempCategories);
 				//set the expenses in the model
-				allExpenses = new Cashflow(displayedExpenses, tempCategories);
+				allExpenses = new Expenses(displayedExpenses, tempCategories);
 				
 				//load the expenses into the evTab's JTable
 				gui.getExpenseViewTab().buildTable(allExpenses.getCashflow());
@@ -125,7 +125,7 @@ public class FMS implements ActionListener{
 		}
 		
 		if(E.getActionCommand().equals("sumDisplayed")){
-			Dialogs.displayMessage(gui.getExpenseViewTab(), Strings.SUM_DISPLAYED_POPUP_TEXT + Cash.currencyFormat(sumExpenses(displayedExpenses)), Strings.SUM_POPUP_TITLE);
+			Dialogs.displayMessage(gui.getExpenseViewTab(), Strings.SUM_DISPLAYED_POPUP_TEXT + Expense.currencyFormat(sumExpenses(displayedExpenses)), Strings.SUM_POPUP_TITLE);
 		}
 		
 		if(E.getActionCommand().equals("sumSelected")){
@@ -133,11 +133,11 @@ public class FMS implements ActionListener{
 			float selectedSum = gui.getExpenseViewTab().sumSelectedExpenses();
 			
 			//sum those expenses
-			Dialogs.displayMessage(gui.getExpenseViewTab(), Strings.SUM_SELECTED_POPUP_TEXT + Cash.currencyFormat(selectedSum), Strings.SUM_POPUP_TITLE);
+			Dialogs.displayMessage(gui.getExpenseViewTab(), Strings.SUM_SELECTED_POPUP_TEXT + Expense.currencyFormat(selectedSum), Strings.SUM_POPUP_TITLE);
 		}
 		
 		if(E.getActionCommand().equals("addExpense")){
-			Cash newExpense = gui.getExpenseEditTab().displayAddDialog();
+			Expense newExpense = gui.getExpenseEditTab().displayAddDialog();
 			if(newExpense != null){
 				//add the new expense to the list of expenses
 				allExpenses.getCashflow().add(newExpense);
@@ -228,7 +228,7 @@ public class FMS implements ActionListener{
 	}
 
 	//small method to save duplicate code
-	private void updateExpensesDisplayedInViewer(ArrayList<Cash> e){
+	private void updateExpensesDisplayedInViewer(ArrayList<Expense> e){
 		Collections.sort(e);
 		displayedExpenses = e;
 		gui.getExpenseViewTab().loadTableContent(displayedExpenses);
@@ -245,9 +245,9 @@ public class FMS implements ActionListener{
 	 * @param exs - list to sum
 	 * @return the sum
 	 */
-	private float sumExpenses(ArrayList<Cash> exs){
+	private float sumExpenses(ArrayList<Expense> exs){
 		float sum = 0;
-		for(Cash e : exs){
+		for(Expense e : exs){
 			sum += e.getCost();
 		}
 		return sum;

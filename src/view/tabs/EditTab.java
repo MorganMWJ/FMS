@@ -13,7 +13,7 @@ import javax.swing.JTextField;
 import javax.swing.border.TitledBorder;
 
 import model.Date;
-import model.Cash;
+import model.Expense;
 import util.Dialogs;
 import util.Strings;
 import appController.FMS;
@@ -128,7 +128,7 @@ public class EditTab extends Tab{
 	}
 	
 	
-	public Cash displayAddDialog() {
+	public Expense displayAddDialog() {
 		JPanel expenseAddPanel = buildExpenseAddPanel();
 		Object[] options = {"ADD"};
 	  
@@ -142,7 +142,7 @@ public class EditTab extends Tab{
 	  		Float cost = getCostInput();
 	  		String category = getCategoryInput();
 	  		if(date != null && name != null && cost != null && category != null){
-		  		return new Cash(date, name , cost, category);
+		  		return new Expense(date, name , cost, category);
 	  		}
 	  	}	  
 		return null;
